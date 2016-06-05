@@ -120,6 +120,10 @@ for (i in 1:nrow(category_matrix)) {
   }
 }
 
+category_matrix$names <- unlist(names)
+category_matrix$descriptions <- unlist(company_details)
+write.csv(category_matrix, "category_matrix.csv")
+
 
 #outsheet for survey
 # descriptions <- gsub("[\r\n]", " ", company_details)
