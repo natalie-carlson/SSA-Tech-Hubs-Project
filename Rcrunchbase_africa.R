@@ -88,6 +88,15 @@ for(i in 1:length(ugandan_companies_details)){
   UG_categories[i] <- paste(ugandan_companies_details[[i]]$relationships$categories$items$properties.name, collapse = "|")
 }
 
+ghanaian_companies$country <- "Ghana"
+kenyan_companies$country <- "Kenya"
+nigerian_companies$country <- "Nigeria"
+ugandan_companies$country <- "Uganda"
+
+country <- append(nigerian_companies$country, kenyan_companies$country)
+country <- append(country, ghanaian_companies$country)
+country <- append(country, ugandan_companies$country)
+
 company_details <- append(NG_company_details, KE_company_details)
 company_details <- append(company_details, GH_company_details)
 company_details <- append(company_details, UG_company_details)
@@ -122,6 +131,7 @@ for (i in 1:nrow(category_matrix)) {
 
 category_matrix$names <- unlist(names)
 category_matrix$descriptions <- unlist(company_details)
+category_matrix$country <- country
 write.csv(category_matrix, "category_matrix.csv")
 
 
