@@ -1,3 +1,5 @@
+
+
 library(dplyr)
 library(ggplot2)
 library(matrixStats)
@@ -201,14 +203,94 @@ lm2 <- lm(funding_dummy ~ average_score + I(average_score^2) + ., dummy_df)
 lm3 <- lm(total_funding ~ average_score + ., total_df)
 lm4 <- lm(total_funding ~ average_score + I(average_score^2) + ., total_df)
 
+#outliers <- quantile( descriptions_categories$total_funding, 0.93)
 
 under_150k <- filter(descriptions_categories, total_funding<=150000)
-lm1 <- lm(funding_dummy ~ average_score + I(average_score^2) + country, under_150k)
+lm1 <- lm(total_funding ~ average_score + I(average_score^2) + country, under_150k)
 
-#covariance test for significance
-#library(covTest)
-#library(lars)
-#lars1 <- lars(masterX, masterY, type="lasso", trace=TRUE, normalize=TRUE, use.Gram = FALSE, max.steps=30)
-#plot(lars1)
-#cov_lars1 <- covTest(lars1, masterX, masterY)
-#cov_lars1
+## Topic Modeling
+
+library("lda")
+library("ggplot2")
+
+corpus <- lexicalize(descriptions$clean_text)
+
+
+alpha <- 1/22
+eta <- 1/22
+
+#set.seed(109)
+#set.seed(111)
+set.seed(103)
+model <- lda.collapsed.gibbs.sampler(corpus$documents, 22, corpus$vocab, 1000, alpha = alpha, eta = eta, compute.log.likelihood=T, trace=0L)
+topics <- top.topic.words(model$topics, n=5)
+topics
+
+counts <- t(model$document_sums)
+proportions <- as.data.frame(counts/(rowSums(counts)))
+
+topics <- sapply(as.data.frame(topics[,1:22]), paste, collapse=", ")
+topics <- unname(topics)
+names(proportions) <- topics
+descriptions_topics <- cbind(descriptions$average_score, proportions)
+colnames(descriptions_topics)[1] <- "average_score"
+lm1 <- lm(average_score ~ . , descriptions_topics)
+
+library(coefplot)
+coefplot(lm1, sort="magnitude")
+
+
+## TEST FOR NUMBER OF TOPICS BY HARMONIC MEAN?
+# library(topicmodels)
+# 
+# harmonicMean <- function(logLikelihoods, precision=2000L) {
+#   library("Rmpfr")
+#   llMed <- median(logLikelihoods)
+#   as.double(llMed - log(mean(exp(-mpfr(logLikelihoods,
+#                                        prec = precision) + llMed))))
+# }
+# 
+# # The log-likelihood values are then determined by first fitting the model using for example
+# k = 20
+# burnin = 1000
+# iter = 1000
+# keep = 50
+# 
+# text_dfm <- dfm(descriptions$clean)
+# # generate numerous topic models with different numbers of topics
+# sequ <- seq(2, 50, 1) # in this case a sequence of numbers from 1 to 50, by ones.
+# fitted_many <- lapply(sequ, function(k) LDA(text_dfm, k = k, method = "Gibbs",control = list(burnin = burnin, iter = iter, keep = keep) ))
+# 
+# # extract logliks from each topic
+# logLiks_many <- lapply(fitted_many, function(L)  L@logLiks[-c(1:(burnin/keep))])
+# 
+# # compute harmonic means
+# hm_many <- sapply(logLiks_many, function(h) harmonicMean(h))
+# 
+# # inspect
+# plot(sequ, hm_many, type = "l")
+# 
+# # compute optimum number of topics
+# sequ[which.max(hm_many)]
+
+
+## RELATIONSHIP BETWEEN TOPICS AND FUNDING
+topic_proportions <- as.data.frame(counts/(rowSums(counts)))
+descriptions_topics <- cbind(descriptions, topic_proportions)
+descriptions_topics$country <- descriptions_categories$country
+
+drops <- c("total_funding","names", "descriptions", "wordcount", "score_sd", "num_responses", "clean_text", "dup1", "dup2", "match")
+dummy_df<- descriptions_topics[ , !(names(descriptions_topics) %in% drops)]
+drops <- c("average_score", "funding_dummy","names", "descriptions", "wordcount", "score_sd", "num_responses", "clean_text", "dup1", "dup2", "match")
+total_df <- descriptions_topics[ , !(names(descriptions_topics) %in% drops)]
+lm1 <- glm(funding_dummy ~ average_score + I(average_score^2) + ., data=dummy_df, family = "binomial")
+lm3 <- lm(total_funding ~ ., total_df)
+
+# topic_interactions <- model.matrix(~(.)^2, topic_proportions)
+# descriptions_interactions <- cbind(descriptions, topic_interactions)
+# descriptions_interactions$country <- descriptions_categories$country
+# drops <- c("average_score", "total_funding","names", "descriptions", "wordcount", "score_sd", "num_responses", "clean_text", "dup1", "dup2", "match")
+# dummy_df<- descriptions_interactions[ , !(names(descriptions_interactions) %in% drops)]
+# lm1 <- lm(funding_dummy ~ ., data=dummy_df)
+
+# interaction between score and topics

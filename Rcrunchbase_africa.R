@@ -1,3 +1,5 @@
+#!/apps/R/lib64/R/bin/Rscript
+
 library(rcrunchbase)
 library(magrittr)
 library(quanteda)

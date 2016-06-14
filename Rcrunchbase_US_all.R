@@ -1,7 +1,10 @@
-#!/apps/R/lib64/R/bin/Rscript
+#!/apps/R-3.2.3/bin/Rscript
 #install.packages("rcrunchbase")
 library(rcrunchbase)
 library(dplyr)
+library(methods)
+
+Sys.setenv(CRUNCHBASE_KEY = "816189d97ed23a3e25188564185a5dfb")
 
 # READ IN DATA
 all_US_companies <- crunchbase_get_collection("organizations", locations="United States")
@@ -14,15 +17,18 @@ US_categories <- list()
 
 # GRAB RELEVANT DETAILS
 for(i in 1:length(all_US_details)){
-  if (is.null(all_US_details[[i]]$properties$description)) {
-    all_US_details[i] <- all_US_companies[i,]$properties.short_description
+  if (is(try(all_US_details[[i]]$properties$description), "try-error")) {
+    US_company_details[i] <- all_US_companies[i,]$properties.short_description
+  }
+  else if (is.null(all_US_details[[i]]$properties$description)) {
+    US_company_details[i] <- all_US_companies[i,]$properties.short_description
   }
   else {
-    US_company_details[i] <- all_US_details[[i]]$properties$description
+    try(US_company_details[i] <- all_US_details[[i]]$properties$description)
   }
-  US_total_funding[i] <- all_US_details[[i]]$properties$total_funding_usd
+  try(US_total_funding[i] <- all_US_details[[i]]$properties$total_funding_usd)
   US_names[i] <- all_US_companies[i,]$properties.name
-  US_categories[i] <- paste(all_US_details[[i]]$relationships$categories$items$properties.name, collapse = "|")
+  try(US_categories[i] <- paste(all_US_details[[i]]$relationships$categories$items$properties.name, collapse = "|"))
 }
 
 company_details <- US_company_details
@@ -32,7 +38,7 @@ categories <- US_categories
 
 # CLEAN UP AND OUTSHEET CATEGORIES
 categories_table <- unlist(categories)
-write.csv(table(categories_table), "categories.csv")
+write.csv(table(categories_table), "test_categories.csv")
 
 #creating matrix
 categories <- lapply(categories, function(x) strsplit(x, "\\|"))
@@ -47,7 +53,7 @@ for (i in 1:nrow(category_matrix)) {
   }
 }
 
-write.csv(category_matrix, "category_matrix.csv")
+write.csv(category_matrix, "test_category_matrix.csv")
 
 # CLEAN AND OUTSHEET OTHER DATA
 descriptions <- gsub("[\r\n]", " ", company_details)
@@ -57,6 +63,7 @@ descriptions.df <- as.data.frame(descriptions)
 descriptions.df$total_funding <- total_funding
 descriptions.df$names <- names
 descriptions.df$wordcount <- word_count(descriptions.df$descriptions)
+descriptions.df$wordcount <- as.numeric(descriptions.df$wordcount)
 descriptions.df <- filter(descriptions.df, wordcount>5)
 descriptions.df <- data.frame(lapply(descriptions.df, as.character), stringsAsFactors=FALSE)
 con<-file('US_descriptions.csv',encoding="UTF-8")
