@@ -35,10 +35,12 @@ ggplot(descriptions, aes(average_score, total_funding)) + geom_point()
 ggplot(funded_only, aes(average_score)) + geom_histogram(binwidth = 0.05) + scale_x_continuous(breaks = scales::pretty_breaks(n = 11), limits = c(-0.05, 1.05))
 ggplot(funded_only, aes(average_score, total_funding)) + geom_point()
 #under five million
-ggplot(funded_only, aes(average_score, total_funding)) + geom_point() + ylim(0,5000000)
+ggplot(funded_only, aes(average_score, total_funding)) + geom_point() + ylim(0,40000000)
 #under 100k
-ggplot(funded_only, aes(average_score, total_funding)) + geom_point() + ylim(25000,2000000)
-
+ggplot(funded_only, aes(average_score, total_funding)) + geom_point() + ylim(100000,2000000)
+#outliers
+outliers <- quantile(descriptions$total_funding, 0.99)
+ggplot(funded_only, aes(average_score, total_funding)) + geom_point() + ylim(0,outliers)
 
 
 ## Clean data and wordclouds
@@ -60,7 +62,7 @@ company_details <- gsub("[[:digit:]]+", " ", company_details)
 # Remove links
 company_details <- gsub("http\\w+", " ", company_details)
 
-myStopwords <- c(stopwords("en"), "e", "s", "m", "d", "t", "africa", "african", "kenya", "kenyan", "nigeria", "nigerian", "uganda", "ugandan", "ghana", "ghanaian", "www", "com", "will", "can", "dazaar", "co", "propeies", "poal", "staups", "enteainment", "â", "propey")
+myStopwords <- c(stopwords("en"), "e", "s", "m", "d", "t", "africa", "african", "kenya", "kenyan", "nigeria", "nigerian", "uganda", "ugandan", "ghana", "ghanaian", "www", "com", "will", "can", "dazaar", "co", "propeies", "poal", "staups", "enteainment", "â", "pistis")
 
 # Remove Stopwords
 company_details <- removeWords(company_details, myStopwords)
@@ -114,7 +116,7 @@ for (i in 1:nrow(descriptions)) {
 #check <- filter(descriptions, dup2==TRUE)
 
 #Add in categories
-categories <- read.csv("category_matrix.csv", header=TRUE, stringsAsFactors=FALSE)
+categories <- read.csv("category_matrix_2.csv", header=TRUE, stringsAsFactors=FALSE)
 categories <- categories[,-1]
 categories$descriptions <- NULL
 descriptions_categories <- merge(descriptions, categories, by.x = c("names"), by.y=c("names"), all.x = TRUE, all.y = FALSE)
@@ -159,14 +161,14 @@ kable(df, row.names = FALSE)
 
 ## Do so with categories and countries included
 dtm$country <- descriptions_categories$country
-#dtm$funding_dummy <- descriptions$funding_dummy
+dtm$funding_dummy <- descriptions$funding_dummy
 #dtm$total_funding <- descriptions$total_funding
-categories_only <- descriptions_categories[,13:224]
+categories_only <- descriptions_categories[,13:231]
 dtm <- cbind(dtm, categories_only)
 dtm <- na.omit(dtm)
 
 library(useful)
-theForm <- average_score ~ .
+#theForm <- average_score ~ .
 #theForm <- funding_dummy ~ .
 #theForm <- total_funding ~ .
 masterX <- build.x(theForm, data=dtm)
@@ -175,12 +177,15 @@ masterY <- build.y(theForm, data=dtm)
 library(glmnet)
 set.seed(102)
 glm1<-glmnet(x=masterX,y=masterY,alpha=1,family='gaussian')
+#glm1<-glmnet(x=masterX,y=masterY,alpha=1,family='binomial')
 plot(glm1, xvar="lambda", label=TRUE)
 cv.glm1 <- cv.glmnet(x=masterX,y=masterY,alpha=1,family='gaussian')
+#cv.glm1 <- cv.glmnet(x=masterX,y=masterY,alpha=1,family='binomial')
 plot(cv.glm1)
 best_lambda <- cv.glm1$lambda.min
 best_lambda
 glm1<-glmnet(x=masterX,y=masterY,alpha=1,family='gaussian', lambda=best_lambda)
+#glm1<-glmnet(x=masterX,y=masterY,alpha=1,family='binomial', lambda=best_lambda)
 #coef(glm1)
 
 #coefficient table
@@ -191,7 +196,6 @@ df <- data.frame(
 )
 df <- df[order(df$coefficient),]
 kable(df, row.names = FALSE)
-
 
 ## Relationship with funding and score
 drops <- c("total_funding","names", "descriptions", "wordcount", "score_sd", "num_responses", "clean_text", "dup1", "dup2", "match")
@@ -223,7 +227,7 @@ eta <- 1/22
 #set.seed(111)
 set.seed(103)
 model <- lda.collapsed.gibbs.sampler(corpus$documents, 22, corpus$vocab, 1000, alpha = alpha, eta = eta, compute.log.likelihood=T, trace=0L)
-topics <- top.topic.words(model$topics, n=5)
+topics <- top.topic.words(model$topics, n=10)
 topics
 
 counts <- t(model$document_sums)
@@ -286,11 +290,110 @@ total_df <- descriptions_topics[ , !(names(descriptions_topics) %in% drops)]
 lm1 <- glm(funding_dummy ~ average_score + I(average_score^2) + ., data=dummy_df, family = "binomial")
 lm3 <- lm(total_funding ~ ., total_df)
 
-# topic_interactions <- model.matrix(~(.)^2, topic_proportions)
-# descriptions_interactions <- cbind(descriptions, topic_interactions)
-# descriptions_interactions$country <- descriptions_categories$country
-# drops <- c("average_score", "total_funding","names", "descriptions", "wordcount", "score_sd", "num_responses", "clean_text", "dup1", "dup2", "match")
-# dummy_df<- descriptions_interactions[ , !(names(descriptions_interactions) %in% drops)]
-# lm1 <- lm(funding_dummy ~ ., data=dummy_df)
-
 # interaction between score and topics
+
+
+## LASSO ON ALL TOPIC INTERACTIONS AND FUNDING/SCORE
+topic_interactions <- model.matrix(~(.)^2, topic_proportions)
+descriptions_interactions <- cbind(descriptions, topic_interactions)
+descriptions_interactions$country <- descriptions_categories$country
+drops <- c("total_funding", "funding_dummy","names", "descriptions", "wordcount", "score_sd", "num_responses", "clean_text", "dup1", "dup2", "match")
+dummy_df<- descriptions_interactions[ , !(names(descriptions_interactions) %in% drops)]
+
+theForm <- average_score ~ .
+#theForm <- funding_dummy ~ .
+#theForm <- total_funding ~ .
+masterX <- build.x(theForm, data=dummy_df)
+masterY <- build.y(theForm, data=dummy_df)
+
+set.seed(102)
+glm1<-glmnet(x=masterX,y=masterY,alpha=1,family='gaussian')
+plot(glm1, xvar="lambda", label=TRUE)
+cv.glm1 <- cv.glmnet(x=masterX,y=masterY,alpha=1,family='gaussian')
+plot(cv.glm1)
+best_lambda <- cv.glm1$lambda.min
+best_lambda
+glm1<-glmnet(x=masterX,y=masterY,alpha=1,family='gaussian', lambda=best_lambda)
+#coef(glm1)
+
+#coefficient table
+ind <- which(coef(glm1) != 0)
+df <- data.frame(
+  feature=rownames(coef(glm1))[ind],
+  coefficient=coef(glm1)[ind]
+)
+df <- df[order(df$coefficient),]
+kable(df, row.names = FALSE)
+
+## Looking at funding specifics  -- number of rounds, venture or private equity, etc. 
+library(mpath)
+library(MASS)
+
+categories_topics <- cbind(descriptions_categories, topic_proportions)
+categories_topics$two_or_more <- ifelse(categories_topics$funding_rounds>1, 1, 0)
+funded_only <- filter(categories_topics, funding_dummy==1)
+poisson1 <- glm(funding_rounds ~ average_score + I(average_score^2) + country + V1 + V2 + V3 + V4 + V5 + V6 + V7 + V8 + V9 + V10 + V11 + V12 + V13 + V14 + V15 + V16 + V17 + V18 + V19 + V20 + V21 + V22, data=funded_only, family = "poisson")
+#pchisq(poisson1$deviance, df=poisson1$df.residual, lower.tail=FALSE)
+
+binomial1 <- glm(two_or_more ~ average_score + I(average_score^2) + country, data = categories_topics, family = "binomial")
+binomial2 <- glm(two_or_more ~ average_score + I(average_score^2) + country, data = funded_only, family = "binomial")
+binomial3 <- glm(two_or_more ~ average_score + I(average_score^2) + country + V1 + V2 + V3 + V4 + V5 + V6 + V7 + V8 + V9 + V10 + V11 + V12 + V13 + V14 + V15 + V16 + V17 + V18 + V19 + V20 + V21 + V22, data = categories_topics, family = "binomial")
+binomial4 <- glm(two_or_more ~ average_score + I(average_score^2) + country + V1 + V2 + V3 + V4 + V5 + V6 + V7 + V8 + V9 + V10 + V11 + V12 + V13 + V14 + V15 + V16 + V17 + V18 + V19 + V20 + V21 + V22, data = funded_only, family = "binomial")
+
+funding_types <- lapply(descriptions_categories$funding_type, function(x) strsplit(x, "\\|"))
+all_funding_types <- unique(unlist(funding_types))
+funding_matrix <- data.frame(matrix(0, nrow=length(funding_types), ncol=length(all_funding_types)))
+colnames(funding_matrix) <- all_funding_types
+
+for (i in 1:nrow(funding_matrix)) {
+  for (j in 1:length(all_funding_types)){
+    if (all_funding_types[j] %in% funding_types[[i]][[1]]) funding_matrix[i,j] <- 1 
+  }
+}
+
+funding_matrix$venture_or_pe <- ifelse(funding_matrix$venture==1 | funding_matrix$private_equity==1, 1, 0)
+descriptions_categories$venture_or_pe <- funding_matrix$venture_or_pe
+descriptions_categories$seed <- funding_matrix$seed
+descriptions_categories$equity_crowdfunding <- funding_matrix$equity_crowdfunding
+descriptions_categories$venture <- funding_matrix$venture
+funded_only <- filter(descriptions_categories, funding_dummy==1)
+binomial1 <- glm(venture_or_pe ~ average_score + country, data = descriptions_categories, family = "binomial")
+
+drops <- c("total_funding", "funding_dummy", "names", "descriptions", "wordcount", "score_sd", "num_responses", "clean_text", "dup1", "dup2", "match", "venture", "equity_crowdfunding", "venture_or_pe", "funding_type", "funding_rounds")
+seed_df<- descriptions_categories[ , !(names(descriptions_categories) %in% drops)]
+binomial2 <- glm(seed ~ average_score + I(average_score^2) + country, data = seed_df, family = "binomial")
+binomial3 <- glm(seed ~ average_score + I(average_score^2) + country + ., data = seed_df, family = "binomial")
+seed_only <- filter(descriptions_categories, seed==1)
+outliers <- quantile(seed_only$total_funding, 0.99)
+seed_only <- filter(seed_only, total_funding<outliers)
+ggplot(seed_only, aes(average_score, total_funding)) + geom_point()
+#ggplot(seed_only, aes(average_score, total_funding)) + geom_point() + ylim(0,500000)
+venture_pe_only <- filter(descriptions_categories, venture_or_pe==1)
+#outliers <- quantile(venture_pe_only$total_funding, 0.99)
+#venture_pe_only <- filter(venture_pe_only, total_funding<outliers)
+ggplot(venture_pe_only, aes(average_score, total_funding)) + geom_point()
+ggplot(venture_pe_only, aes(average_score, total_funding)) + geom_point() + ylim(0,20000000)
+
+
+#amount of venture/pe and seed funding
+#descriptions_categories$venture_pe_funding <- ifelse(descriptions_categories$venture_or_pe==1, descriptions_categories$total_funding, 0) 
+#descriptions_categories$seed_funding <- ifelse(descriptions_categories$venture_or_pe==0 & descriptions_categories$seed==1, descriptions_categories$total_funding, 0) 
+#funded_only <- filter(descriptions_categories, funding_dummy==1)
+#venture_pe_only <- filter(descriptions_categories, venture_or_pe==1)
+lm1 <- lm(total_funding ~ average_score + country, data = venture_pe_only)
+#drops <- c("total_funding", "funding_dummy", "names", "descriptions", "wordcount", "score_sd", "num_responses", "clean_text", "dup1", "dup2", "match", "venture", "seed", "equity_crowdfunding", "venture_or_pe", "funding_type", "funding_rounds")
+#VPE_df<- venture_pe_only[ , !(names(venture_pe_only) %in% drops)]
+#lm1 <- lm(venture_pe_funding ~ average_score + country + ., data = VPE_df)
+#seed_only <- filter(descriptions_categories, seed==1)
+lm1 <- lm(total_funding ~ average_score + I(average_score^2) + country, data = seed_only)
+
+#relationship with topics?
+categories_topics$venture_or_pe <- descriptions_categories$venture_or_pe
+categories_topics$seed <- descriptions_categories$seed
+seed_only <- filter(categories_topics, seed==1)
+outliers <- quantile(seed_only$total_funding, 0.99)
+seed_only <- filter(seed_only, total_funding<outliers)
+venture_pe_only <- filter(categories_topics, venture_or_pe==1)
+lm1 <- lm(total_funding ~ country + V1 + V2 + V3 + V4 + V5 + V6 + V7 + V8 + V9 + V10 + V11 + V12 + V13 + V14 + V15 + V16 + V17 + V18 + V19 + V20 + V21 + V22, data = venture_pe_only)
+lm1 <- lm(total_funding ~ average_score + country + V1 + V2 + V3 + V4 + V5 + V6 + V7 + V8 + V9 + V10 + V11 + V12 + V13 + V14 + V15 + V16 + V17 + V18 + V19 + V20 + V21 + V22, data = seed_only)
+

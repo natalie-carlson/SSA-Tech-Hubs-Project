@@ -14,6 +14,8 @@ US_company_details <- list()
 US_total_funding <- list()
 US_names <- list()
 US_categories <- list()
+US_funding_rounds <- list()
+US_funding_type <- list()
 
 # GRAB RELEVANT DETAILS
 for(i in 1:length(all_US_details)){
@@ -29,12 +31,16 @@ for(i in 1:length(all_US_details)){
   try(US_total_funding[i] <- all_US_details[[i]]$properties$total_funding_usd)
   US_names[i] <- all_US_companies[i,]$properties.name
   try(US_categories[i] <- paste(all_US_details[[i]]$relationships$categories$items$properties.name, collapse = "|"))
+  try(US_funding_rounds[i] <- all_US_details[[i]]$relationships$funding_rounds$paging$total_items)
+  try(US_funding_type[i] <- paste(all_US_details[[i]]$relationships$funding_rounds$items$properties.funding_type, collapse = "|"))
 }
 
 company_details <- US_company_details
 total_funding <- US_total_funding
 names <- US_names
 categories <- US_categories
+funding_rounds <- US_funding_rounds
+funding_type <- US_funding_type
 
 # CLEAN UP AND OUTSHEET CATEGORIES
 categories_table <- unlist(categories)
@@ -62,9 +68,12 @@ descriptions <- gsub(" $", "", descriptions)
 descriptions.df <- as.data.frame(descriptions)
 descriptions.df$total_funding <- total_funding
 descriptions.df$names <- names
-descriptions.df$wordcount <- word_count(descriptions.df$descriptions)
-descriptions.df$wordcount <- as.numeric(descriptions.df$wordcount)
-descriptions.df <- filter(descriptions.df, wordcount>5)
+descriptions.df$funding_rounds <- funding_rounds
+descriptions.df$funding_type <- funding_type
+descriptions.df$categories <- US_categories
+#descriptions.df$wordcount <- word_count(descriptions.df$descriptions)
+#descriptions.df$wordcount <- as.numeric(descriptions.df$wordcount)
+#descriptions.df <- filter(descriptions.df, wordcount>5)
 descriptions.df <- data.frame(lapply(descriptions.df, as.character), stringsAsFactors=FALSE)
 con<-file('US_descriptions.csv',encoding="UTF-8")
 con2<-file('US_descriptions_only.csv',encoding="UTF-8")
