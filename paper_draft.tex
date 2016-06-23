@@ -1,0 +1,610 @@
+\title{Social Entrepreneurship, Language, and Funding: Evidence from Tech Startups in Sub-Saharan Africa}
+
+\date{\today}
+
+\documentclass[12pt]{article}
+
+\usepackage{sectsty}
+
+\sectionfont{\fontsize{12}{15}\selectfont}
+
+\usepackage[margin=0.8in]{geometry}
+
+\usepackage{parskip}
+
+\usepackage{graphicx}
+
+\usepackage[font=small,labelfont=bf]{caption}
+
+\usepackage{fancyhdr}
+ 
+ \usepackage{longtable}
+ 
+ \usepackage{pgfplotstable}
+ 
+\usepackage{booktabs}
+
+\usepackage{placeins}
+
+\pagestyle{fancy}
+\fancyhead{} % clear all header fields
+\fancyhead[L]{\fontsize{10}{12} \selectfont Social Entrepreneurship, Language and Funding}
+\fancyfoot{}
+% Set the right side of the footer to be the page number
+\fancyfoot[R]{\thepage}
+ 
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Social ventures, characterized by the “double bottom line” of profitability and social impact, have become an increasingly recognized model of entrepreneurship. Particularly in developing economies, in which economic growth in itself is often characterized as a social good, the line between social entrepreneurship and more traditional commercial entrepreneurship can be unclear. We investigate this tension by employing computational methods of text analysis on a sample of over 800 startups in sub-Saharan Africa. Using both supervised classification and topic modeling, we create measures of the degree to which each firm is oriented towards social impact based on their marketing language. We then examine the relationship between this orientation and funding outcomes. This analysis is supported by structured interviews conducted with entrepreneurs in Lagos, Nigeria.
+
+\smallskip
+\noindent \textbf{Keywords:} Social Entrepreneurship, Africa, Venture Capital, Natural Language Processing, Latent Dirichlet Allocation 
+
+\end{abstract}
+
+
+\section{Introduction}
+
+
+
+\section{Text Methods}
+
+
+
+\section{Primary Research Question and Hypotheses}
+
+
+\section{Results: mTurk Scores and Funding}
+
+\newpage
+
+\begin{minipage}{\textwidth}
+\centering
+\captionof{table}{Words from LASSO model predicting mTurk score}
+\begingroup\small
+\pgfplotstabletypeset[
+    every head row/.style={before row=\toprule,after row=\midrule},
+    every last row/.style={after row=\bottomrule},
+    col sep=ampersand,
+    row sep=\\,
+    %
+    columns={Feature,Coefficient,Feature,Coefficient},
+    display columns/0/.style={
+        % first part of 2 of `thing':
+        select equal part entry of={0}{2},
+        string type,
+            % column display name:
+        column name={Feature},
+        column type={c}, % ... and type
+    },
+    display columns/1/.style={
+        % first part of 2 of `mapsto':
+        select equal part entry of={0}{2},
+        string type,
+        column name={Coefficient},
+        column type={l|},
+    },
+    display columns/2/.style={select equal part entry of={1}{2},string type},% second part of 2 of `thing'
+    display columns/3/.style={select equal part entry of={1}{2},string type},% second part of 2 of `maps'
+]{
+    Feature & Coefficient \\
+    fimmediately & -0.03 \\ 
+  leading & -0.02 \\ 
+  provider & -0.02 \\ 
+  develops & -0.02 \\ 
+  branches & -0.01 \\ 
+  nairobi & -0.01 \\ 
+  email & -0.01 \\ 
+  firm & -0.01 \\ 
+  company & -0.01 \\ 
+  securities & -0.01 \\ 
+  delivery & -0.01 \\ 
+  management & -0.01 \\ 
+  agency & -0.01 \\ 
+  strong & -0.01 \\ 
+  exchange & -0.01 \\ 
+  limited & -0.01 \\ 
+  telecommunication & -0.00 \\ 
+  eastern & -0.00 \\ 
+  bank & -0.00 \\ 
+  solution & -0.00 \\ 
+  web & -0.00 \\ 
+  online & -0.00 \\ 
+  subsidiary & -0.00 \\ 
+  water & 0.00 \\ 
+  enough & 0.00 \\ 
+  give & 0.00 \\ 
+  mentoring & 0.00 \\ 
+  job & 0.00 \\ 
+  solar & 0.00 \\ 
+  share & 0.00 \\ 
+  foundation & 0.00 \\ 
+  pool & 0.01 \\ 
+  materials & 0.01 \\ 
+  study & 0.01 \\ 
+  better & 0.01 \\ 
+  interact & 0.01 \\ 
+  opportunity & 0.01 \\ 
+  discover & 0.01 \\ 
+  incubator & 0.01 \\ 
+  education & 0.01 \\ 
+  leveraging & 0.01 \\ 
+  care & 0.01 \\ 
+  supporting & 0.01 \\ 
+  rural & 0.01 \\ 
+  forum & 0.01 \\ 
+  solving & 0.01 \\ 
+  `start-up` & 0.01 \\ 
+  entrepreneurs & 0.01 \\ 
+  hub & 0.01 \\ 
+  children & 0.01 \\ 
+  directions & 0.01 \\ 
+  sustainability & 0.02 \\ 
+  accessibility & 0.02 \\ 
+  programs & 0.02 \\ 
+  patients & 0.02 \\ 
+  together & 0.02 \\ 
+  entrepreneurship & 0.02 \\ 
+  healthcare & 0.02 \\ 
+  create & 0.02 \\ 
+  improve & 0.02 \\ 
+  clean & 0.02 \\ 
+  affordable & 0.02 \\ 
+  solve & 0.02 \\ 
+  access & 0.02 \\ 
+  women & 0.02 \\ 
+  farmers & 0.03 \\ 
+  urban & 0.03 \\ 
+  raise & 0.03 \\ 
+  health & 0.03 \\ 
+  teach & 0.03 \\ 
+  `non-profit` & 0.03 \\ 
+  enhancing & 0.03 \\ 
+  awareness & 0.03 \\ 
+  social & 0.03 \\ 
+  scale & 0.03 \\ 
+  lives & 0.03 \\ 
+  people & 0.04 \\ 
+  community & 0.04 \\ 
+  educational & 0.04 \\ 
+  civil & 0.04 \\ 
+  sustainable & 0.05 \\ 
+  africans & 0.05 \\ 
+  households & 0.05 \\ 
+  students & 0.06 \\ 
+  schools & 0.06 \\ 
+  youth & 0.07 \\ 
+  communities & 0.08 \\ 
+  charity & 0.10 \\ 
+  poverty & 0.10 \\ 
+  (Intercept) & 0.40 \\ 
+}
+\endgroup
+\end{minipage}
+
+\newpage
+
+% Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
+% Date and time: Thu, Jun 23, 2016 - 15:34:23
+\begin{table}[!htbp] \centering 
+  \caption{Logistic Regression of Funding Dummy on mTurk Score} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}}lccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & \multicolumn{3}{c}{Funding Indicator} \\ 
+\cline{2-4} 
+\\[-1.8ex] & \multicolumn{3}{c}{} \\ 
+ & Model 1 & Model 2 & Model 3 \\ 
+\\[-1.8ex] & (1) & (2) & (3)\\ 
+\hline \\[-1.8ex] 
+ mTurk Score & 4.37$^{*}$ & 4.82$^{*}$ & 7.46$^{**}$ \\ 
+  & (2.55) & (2.65) & (3.74) \\ 
+  mTurk Score*2 & $-$5.17$^{*}$ & $-$5.27$^{*}$ & $-$7.75$^{*}$ \\ 
+  & (2.69) & (2.78) & (3.98) \\ 
+  Kenya & $-$0.03 & 0.14 & 0.49 \\ 
+  & (0.37) & (0.38) & (0.57) \\ 
+  Nigeria & 0.14 & 0.24 & 0.81 \\ 
+  & (0.36) & (0.37) & (0.56) \\ 
+  Uganda & 0.45 & 0.53 & 0.72 \\ 
+  & (0.44) & (0.45) & (0.69) \\ 
+  Software &  & 1.01$^{***}$ & 2.03$^{***}$ \\ 
+  &  & (0.34) & (0.50) \\ 
+  Mobile &  & 0.82$^{**}$ & 0.30 \\ 
+  &  & (0.33) & (0.65) \\ 
+  E-Commerce &  & 0.73$^{*}$ & 1.28$^{**}$ \\ 
+  &  & (0.38) & (0.56) \\ 
+  Education &  & 0.59 & 1.85$^{***}$ \\ 
+  &  & (0.44) & (0.62) \\ 
+  Constant & $-$2.84$^{***}$ & $-$3.40$^{***}$ & $-$5.66$^{***}$ \\ 
+  & (0.64) & (0.69) & (1.05) \\ 
+  \hline \\[-1.8ex] 
+All 200+ Industries & No & No & Yes \\ 
+ \hline \\[-1.8ex] 
+Observations & 844 & 844 & 844 \\ 
+\hline 
+\hline \\[-1.8ex] 
+\textit{Note:}  & \multicolumn{3}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
+\end{tabular} 
+\end{table} 
+
+% Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
+% Date and time: Thu, Jun 23, 2016 - 16:11:41
+\begin{table}[!htbp] \centering 
+  \caption{Regressions of Total Funding on mTurk Score} 
+  \label{} 
+\footnotesize 
+\begin{tabular}{@{\extracolsep{5pt}}lcccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & \multicolumn{6}{c}{Funding Amount: Less than...} \\ 
+\cline{2-7} 
+\\[-1.8ex] & \multicolumn{6}{c}{} \\ 
+ & \textdollar 10m &  \textdollar 1m &  \textdollar 400k &  \textdollar 200k &  \textdollar 50k &  \textdollar 25k \\ 
+\\[-1.8ex] & (1) & (2) & (3) & (4) & (5) & (6)\\ 
+\hline \\[-1.8ex] 
+ mTurk Score & 188,883 & 21,205 & 43,249$^{**}$ & 24,880$^{*}$ & 2,031 & 2,048 \\ 
+  & (340,299) & (44,280) & (20,577) & (13,101) & (3,169) & (1,908) \\ 
+  mTurk Score*2 & $-$150,817 & $-$16,363 & $-$39,834$^{*}$ & $-$26,372$^{*}$ & $-$1,459 & $-$1,676 \\ 
+  & (354,938) & (46,167) & (21,436) & (13,642) & (3,298) & (1,984) \\ 
+  Kenya & 61,072 & $-$5,430 & $-$4,817 & $-$1,573 & $-$72 & 310 \\ 
+  & (53,155) & (6,979) & (3,259) & (2,074) & (507) & (306) \\ 
+  Nigeria & 50,273 & $-$11,617$^{*}$ & $-$2,791 & $-$706 & 34 & 268 \\ 
+  & (52,802) & (6,920) & (3,228) & (2,056) & (501) & (304) \\ 
+  Uganda & 32,511 & $-$12,483 & $-$6,135 & $-$282 & 174 & 957$^{**}$ \\ 
+  & (69,215) & (9,075) & (4,236) & (2,697) & (658) & (397) \\ 
+  Constant & $-$46,310 & 4,573 & $-$6,770 & $-$3,648 & $-$434 & $-$883$^{*}$ \\ 
+  & (88,906) & (11,558) & (5,393) & (3,429) & (831) & (501) \\ 
+   \hline \\[-1.8ex] 
+ All 200+ Industries & Yes & Yes & Yes & Yes & Yes & Yes\\ 
+ \hline \\[-1.8ex] 
+Observations & 835 & 816 & 808 & 800 & 782 & 770 \\ 
+R$^{2}$ & 0 & 0 & 0 & 0 & 1 & 0 \\ 
+\hline 
+\hline \\[-1.8ex] 
+\textit{Note:}  & \multicolumn{6}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
+\end{tabular} 
+\end{table} 
+
+% Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
+% Date and time: Thu, Jun 23, 2016 - 16:45:22
+\begin{table}[!htbp] \centering 
+  \caption{Specific Types of Funding Outcomes} 
+  \label{} 
+\footnotesize 
+\begin{tabular}{@{\extracolsep{5pt}}lcccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & \multicolumn{4}{c}{Funding Indicators} \\ 
+\cline{2-5} 
+\\[-1.8ex] &  &  &  &  \\ 
+ & First Funding Round & Subsequent Funding Rounds & Seed Funding & Venture/PE Funding \\ 
+\\[-1.8ex] & (1) & (2) & (3) & (4)\\ 
+\hline \\[-1.8ex] 
+ mTurk Score & 8.58$^{**}$ & $-$0.53 & 8.40$^{*}$ & 0.18 \\ 
+  & (3.98) & (7.40) & (4.40) & (8.18) \\ 
+  mTurk Score*2 & $-$8.67$^{**}$ & 0.42 & $-$7.30 & $-$0.38 \\ 
+  & (4.20) & (7.75) & (4.48) & (9.24) \\ 
+  Kenya & 0.68 & 0.08 & 0.01 & 1.93 \\ 
+  & (0.64) & (0.92) & (0.56) & (1.46) \\ 
+  Nigeria & 1.14$^{*}$ & $-$0.80 & $-$0.49 & 1.01 \\ 
+  & (0.61) & (0.95) & (0.58) & (1.46) \\ 
+  Uganda & 0.74 & 0.31 & $-$0.11 & 0.69 \\ 
+  & (0.77) & (1.03) & (0.70) & (1.96) \\ 
+  Constant & $-$6.33$^{***}$ & $-$1.37 & $-$5.30$^{***}$ & $-$5.35$^{**}$ \\ 
+  & (1.14) & (1.79) & (1.20) & (2.17) \\ 
+\hline \\[-1.8ex] 
+ All 200+ Industries & Yes & Yes & Yes & Yes \\ 
+ \hline \\[-1.8ex] 
+Observations & 824 & 99 & 844 & 844 \\ 
+\hline 
+\hline \\[-1.8ex] 
+\textit{Note:}  & \multicolumn{4}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
+\end{tabular} 
+\end{table} 
+
+\section{Results: Topics}
+
+
+\section{References}
+
+
+
+
+\section{Appendix Tables}
+
+\newpage
+
+\begin{minipage}{\textwidth}
+\centering
+\captionof{table}{Words that distinguish low from middle mTurk scores}
+\begingroup\footnotesize
+\pgfplotstabletypeset[
+    every head row/.style={before row=\toprule,after row=\midrule},
+    every last row/.style={after row=\bottomrule},
+    col sep=ampersand,
+    row sep=\\,
+    %
+    columns={Feature,Coefficient,Feature,Coefficient},
+    display columns/0/.style={
+        % first part of 2 of `thing':
+        select equal part entry of={0}{2},
+        string type,
+            % column display name:
+        column name={Feature},
+        column type={c}, % ... and type
+    },
+    display columns/1/.style={
+        % first part of 2 of `mapsto':
+        select equal part entry of={0}{2},
+        string type,
+        column name={Coefficient},
+        column type={l|},
+    },
+    display columns/2/.style={select equal part entry of={1}{2},string type},% second part of 2 of `thing'
+    display columns/3/.style={select equal part entry of={1}{2},string type},% second part of 2 of `maps'
+]{
+    Feature & Coefficient \\
+    firm & -0.64 \\ 
+  price & -0.58 \\ 
+  (Intercept) & -0.57 \\ 
+  ltd & -0.42 \\ 
+  solution & -0.41 \\ 
+  booking & -0.40 \\ 
+  analytics & -0.38 \\ 
+  `africa's` & -0.36 \\ 
+  record & -0.36 \\ 
+  brand & -0.28 \\ 
+  turn & -0.27 \\ 
+  name & -0.23 \\ 
+  `nigeria's` & -0.23 \\ 
+  within & -0.21 \\ 
+  post & -0.19 \\ 
+  organisation & -0.17 \\ 
+  management & -0.15 \\ 
+  states & -0.14 \\ 
+  headquartered & -0.14 \\ 
+  bank & -0.11 \\ 
+  banking & -0.10 \\ 
+  mobility & -0.09 \\ 
+  sale & -0.08 \\ 
+  kingdom & -0.07 \\ 
+  goods & -0.06 \\ 
+  provider & -0.04 \\ 
+  always & -0.04 \\ 
+  using & 0.02 \\ 
+  school & 0.03 \\ 
+  potential & 0.03 \\ 
+  unlike & 0.04 \\ 
+  family & 0.04 \\ 
+  government & 0.04 \\ 
+  enhancing & 0.05 \\ 
+  sustainable & 0.05 \\ 
+  investment & 0.05 \\ 
+  enable & 0.05 \\ 
+  source & 0.06 \\ 
+  long & 0.07 \\ 
+  videos & 0.09 \\ 
+  lifestyle & 0.09 \\ 
+  income & 0.09 \\ 
+  material & 0.11 \\ 
+  manage & 0.11 \\ 
+  portal & 0.12 \\ 
+  provide & 0.12 \\ 
+  formed & 0.13 \\ 
+  extra & 0.13 \\ 
+  daily & 0.13 \\ 
+  local & 0.14 \\ 
+  europe & 0.15 \\ 
+  classes & 0.15 \\ 
+  language & 0.15 \\ 
+  users & 0.16 \\ 
+  africa & 0.17 \\ 
+  startups & 0.17 \\ 
+  employers & 0.18 \\ 
+  send & 0.19 \\ 
+  helps & 0.20 \\ 
+  seed & 0.20 \\ 
+  whole & 0.20 \\ 
+  promote & 0.22 \\ 
+  ideal & 0.23 \\ 
+  major & 0.23 \\ 
+  university & 0.23 \\ 
+  initiative & 0.24 \\ 
+  energy & 0.24 \\ 
+  small & 0.25 \\ 
+  model & 0.26 \\ 
+  public & 0.27 \\ 
+  free & 0.28 \\ 
+  financing & 0.32 \\ 
+  unlimited & 0.33 \\ 
+  african & 0.33 \\ 
+  cook & 0.34 \\ 
+  open & 0.34 \\ 
+  founders & 0.39 \\ 
+  take & 0.39 \\ 
+  realized & 0.39 \\ 
+  june & 0.42 \\ 
+  members & 0.45 \\ 
+  used & 0.45 \\ 
+  text & 0.45 \\ 
+  activities & 0.48 \\ 
+  hot & 0.50 \\ 
+  favorite & 0.51 \\ 
+  platform & 0.51 \\ 
+  social & 0.53 \\ 
+  places & 0.55 \\ 
+  annually & 0.57 \\ 
+  export & 0.58 \\ 
+  news & 0.59 \\ 
+  countries & 0.63 \\ 
+  b2b & 0.63 \\ 
+  improvement & 0.64 \\ 
+  people & 0.68 \\ 
+  event & 0.71 \\ 
+  established & 0.78 \\ 
+  spend & 0.79 \\ 
+  around & 0.80 \\ 
+  relevant & 0.81 \\ 
+  territory & 0.82 \\ 
+  channels & 1.37 \\ 
+}
+\endgroup
+\end{minipage}
+
+
+\newpage
+
+\begin{minipage}{\textwidth}
+\centering
+\captionof{table}{Words that distinguish middle from high mTurk scores}
+\begingroup\footnotesize
+\pgfplotstabletypeset[
+    every head row/.style={before row=\toprule,after row=\midrule},
+    every last row/.style={after row=\bottomrule},
+    col sep=ampersand,
+    row sep=\\,
+    %
+    columns={Feature,Coefficient,Feature,Coefficient},
+    display columns/0/.style={
+        % first part of 2 of `thing':
+        select equal part entry of={0}{2},
+        string type,
+            % column display name:
+        column name={Feature},
+        column type={c}, % ... and type
+    },
+    display columns/1/.style={
+        % first part of 2 of `mapsto':
+        select equal part entry of={0}{2},
+        string type,
+        column name={Coefficient},
+        column type={l|},
+    },
+    display columns/2/.style={select equal part entry of={1}{2},string type},% second part of 2 of `thing'
+    display columns/3/.style={select equal part entry of={1}{2},string type},% second part of 2 of `maps'
+]{
+    Feature & Coefficient \\
+    engineering & -0.67 \\ 
+  whole & -0.57 \\ 
+  app & -0.45 \\ 
+  user & -0.45 \\ 
+  investment & -0.40 \\ 
+  software & -0.39 \\ 
+  ideal & -0.39 \\ 
+  leading & -0.39 \\ 
+  enable & -0.38 \\ 
+  seamless & -0.36 \\ 
+  customers & -0.36 \\ 
+  (Intercept) & -0.35 \\ 
+  sell & -0.35 \\ 
+  entertainment & -0.31 \\ 
+  places & -0.31 \\ 
+  manage & -0.31 \\ 
+  unlimited & -0.31 \\ 
+  word & -0.30 \\ 
+  fashion & -0.30 \\ 
+  capital & -0.27 \\ 
+  general & -0.26 \\ 
+  product & -0.25 \\ 
+  google & -0.24 \\ 
+  clients & -0.24 \\ 
+  analysis & -0.24 \\ 
+  media & -0.21 \\ 
+  magazine & -0.20 \\ 
+  sellers & -0.18 \\ 
+  company & -0.17 \\ 
+  companies & -0.17 \\ 
+  news & -0.17 \\ 
+  investor & -0.16 \\ 
+  generate & -0.16 \\ 
+  government & -0.15 \\ 
+  started & -0.15 \\ 
+  owned & -0.15 \\ 
+  regulatory & -0.14 \\ 
+  territory & -0.12 \\ 
+  transactions & -0.10 \\ 
+  reviews & -0.09 \\ 
+  nairobi & -0.09 \\ 
+  money & -0.09 \\ 
+  strategy & -0.09 \\ 
+  wallet & -0.07 \\ 
+  base & -0.07 \\ 
+  required & -0.06 \\ 
+  african & -0.04 \\ 
+  shopping & -0.04 \\ 
+  hot & -0.02 \\ 
+  internet & -0.02 \\ 
+  advertising & -0.01 \\ 
+  stories & -0.00 \\ 
+  service & -0.00 \\ 
+  `non-profit` & 0.01 \\ 
+  child & 0.01 \\ 
+  answers & 0.02 \\ 
+  environment & 0.03 \\ 
+  connect & 0.03 \\ 
+  another & 0.04 \\ 
+  ideas & 0.04 \\ 
+  women & 0.04 \\ 
+  solving & 0.07 \\ 
+  post & 0.08 \\ 
+  improved & 0.08 \\ 
+  life & 0.09 \\ 
+  africans & 0.10 \\ 
+  people & 0.10 \\ 
+  organisation & 0.10 \\ 
+  booking & 0.11 \\ 
+  waste & 0.11 \\ 
+  awareness & 0.12 \\ 
+  economic & 0.13 \\ 
+  `start-up` & 0.13 \\ 
+  towards & 0.13 \\ 
+  urban & 0.13 \\ 
+  united & 0.16 \\ 
+  farmers & 0.16 \\ 
+  feed & 0.18 \\ 
+  education & 0.18 \\ 
+  scale & 0.18 \\ 
+  recruitment & 0.20 \\ 
+  households & 0.22 \\ 
+  mission & 0.23 \\ 
+  lives & 0.23 \\ 
+  price & 0.24 \\ 
+  social & 0.24 \\ 
+  healthcare & 0.24 \\ 
+  pool & 0.25 \\ 
+  patients & 0.26 \\ 
+  health & 0.26 \\ 
+  study & 0.27 \\ 
+  share & 0.28 \\ 
+  access & 0.29 \\ 
+  sells & 0.30 \\ 
+  improve & 0.31 \\ 
+  entrepreneurship & 0.31 \\ 
+  networking & 0.32 \\ 
+  supported & 0.33 \\ 
+  raise & 0.34 \\ 
+  interests & 0.35 \\ 
+  foundation & 0.40 \\ 
+  problems & 0.46 \\ 
+  enhance & 0.46 \\ 
+  affordable & 0.51 \\ 
+  students & 0.52 \\ 
+  strive & 0.53 \\ 
+  charity & 0.64 \\ 
+  educational & 0.66 \\ 
+  youth & 0.74 \\ 
+  informal & 0.79 \\ 
+  teach & 0.85 \\ 
+  poverty & 0.90 \\ 
+  communities & 0.96 \\ 
+}
+\endgroup
+\end{minipage}
+
+
+\end{document}
+

@@ -28,6 +28,7 @@ NG_names <- list()
 NG_categories <- list()
 NG_funding_rounds <- list()
 NG_funding_type <- list()
+NG_investors <- list()
 
 for(i in 1:length(nigerian_companies_details)){
   if (is.null(nigerian_companies_details[[i]]$properties$description)) {
@@ -41,7 +42,7 @@ for(i in 1:length(nigerian_companies_details)){
   NG_categories[i] <- paste(nigerian_companies_details[[i]]$relationships$categories$items$properties.name, collapse = "|")
   NG_funding_rounds[i] <- nigerian_companies_details[[i]]$relationships$funding_rounds$paging$total_items
   NG_funding_type[i] <- paste(nigerian_companies_details[[i]]$relationships$funding_rounds$items$properties.funding_type, collapse = "|")
-  
+  NG_investors[i] <- paste(nigerian_companies_details[[i]]$relationships$investors$items$properties.permalink, collapse = "|")
 }
 
 KE_company_details <- list()
@@ -50,6 +51,7 @@ KE_names <- list()
 KE_categories <- list()
 KE_funding_rounds <- list()
 KE_funding_type <- list()
+KE_investors <- list()
 
 for(i in 1:length(kenyan_companies_details)){
   if (is.null(kenyan_companies_details[[i]]$properties$description)) {
@@ -63,6 +65,7 @@ for(i in 1:length(kenyan_companies_details)){
   KE_categories[i] <- paste(kenyan_companies_details[[i]]$relationships$categories$items$properties.name, collapse = "|")
   KE_funding_rounds[i] <- kenyan_companies_details[[i]]$relationships$funding_rounds$paging$total_items
   KE_funding_type[i] <- paste(kenyan_companies_details[[i]]$relationships$funding_rounds$items$properties.funding_type, collapse = "|")
+  KE_investors[i] <- paste(kenyan_companies_details[[i]]$relationships$investors$items$properties.permalink, collapse = "|")
 }
 
 GH_company_details <- list()
@@ -71,6 +74,7 @@ GH_names <- list()
 GH_categories <- list()
 GH_funding_rounds <- list()
 GH_funding_type <- list()
+GH_investors <- list()
 
 for(i in 1:length(ghanaian_companies_details)){
   if (is.null(ghanaian_companies_details[[i]]$properties$description)) {
@@ -84,7 +88,7 @@ for(i in 1:length(ghanaian_companies_details)){
   GH_categories[i] <- paste(ghanaian_companies_details[[i]]$relationships$categories$items$properties.name, collapse = "|")
   GH_funding_rounds[i] <- ghanaian_companies_details[[i]]$relationships$funding_rounds$paging$total_items
   GH_funding_type[i] <- paste(ghanaian_companies_details[[i]]$relationships$funding_rounds$items$properties.funding_type, collapse = "|")
-  
+  GH_investors[i] <- paste(ghanaian_companies_details[[i]]$relationships$investors$items$properties.permalink, collapse = "|")
 }
 
 UG_company_details <- list()
@@ -93,6 +97,7 @@ UG_names <- list()
 UG_categories <- list()
 UG_funding_rounds <- list()
 UG_funding_type <- list()
+UG_investors <- list()
 
 for(i in 1:length(ugandan_companies_details)){
   if (is.null(ugandan_companies_details[[i]]$properties$description)) {
@@ -106,6 +111,7 @@ for(i in 1:length(ugandan_companies_details)){
   UG_categories[i] <- paste(ugandan_companies_details[[i]]$relationships$categories$items$properties.name, collapse = "|")
   UG_funding_rounds[i] <- ugandan_companies_details[[i]]$relationships$funding_rounds$paging$total_items
   UG_funding_type[i] <- paste(ugandan_companies_details[[i]]$relationships$funding_rounds$items$properties.funding_type, collapse = "|")
+  UG_investors[i] <- paste(ugandan_companies_details[[i]]$relationships$investors$items$properties.permalink, collapse = "|")
 }
 
 ghanaian_companies$country <- "Ghana"
@@ -141,6 +147,10 @@ funding_type <- append(NG_funding_type, KE_funding_type)
 funding_type <- append(funding_type, GH_funding_type)
 funding_type <- append(funding_type, UG_funding_type)
 
+investors <- append(NG_investors, KE_investors)
+investors <- append(investors, GH_investors)
+investors <- append(investors, UG_investors)
+
 
 #categories_table <- unlist(categories)
 #write.csv(table(categories_table), "categories.csv")
@@ -163,6 +173,7 @@ category_matrix$descriptions <- unlist(company_details)
 category_matrix$country <- country
 category_matrix$funding_rounds <- funding_rounds
 category_matrix$funding_type <- funding_type
+category_matrix$investors <- investors
 category_matrix <- data.frame(lapply(category_matrix, as.character), stringsAsFactors=FALSE)
 write.csv(category_matrix, "category_matrix.csv")
 
