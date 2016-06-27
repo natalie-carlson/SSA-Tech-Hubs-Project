@@ -23,7 +23,7 @@ num_responses <- colSums(good_data!=0, na.rm=TRUE)
 average_scores <- colMeans(good_data, na.rm=TRUE)
 standard_devs <- colSds(as.matrix(good_data), na.rm=TRUE)
 
-ggplot() + aes(average_scores) + geom_histogram(binwidth = 0.05) + scale_x_continuous(breaks = scales::pretty_breaks(n = 11), limits = c(-0.05, 1.05))
+ggplot() + aes(average_scores) + geom_histogram(binwidth = 0.1) + scale_x_continuous(breaks = scales::pretty_breaks(n = 11), limits = c(-0.05, 1.05))
 
 
 descriptions$average_score <- average_scores
@@ -32,6 +32,10 @@ descriptions$num_responses <- num_responses
 descriptions$funding_dummy <- ifelse(descriptions$total_funding>0,1,0)
 
 ggplot(descriptions, aes(x=average_scores, fill=factor(funding_dummy))) + geom_histogram(binwidth = 0.05) + scale_x_continuous(breaks = scales::pretty_breaks(n = 11), limits = c(-0.05, 1.05))
+
+library(gtools)
+bin_descriptions <- data.frame(descriptions, bin=cut(descriptions$average_score, c(0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1), include.lowest=TRUE))
+ggplot(bin_descriptions, aes(x=bin, y=funding_dummy)) + stat_summary(fun.y="mean", geom="bar") + xlab("Less Social <--- Average mTurk Score ---> More Social") + ylab("Proportion of Firms Funded")
 
 
 #drop those with no responses
