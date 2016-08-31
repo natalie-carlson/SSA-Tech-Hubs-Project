@@ -1,8 +1,7 @@
-\title{Social Entrepreneurship, Language, and Funding: Evidence from Tech Startups in Sub-Saharan Africa}
-
-\date{\today}
 
 \documentclass[12pt]{article}
+
+\usepackage[affil-it]{authblk}
 
 \usepackage{sectsty}
 
@@ -28,13 +27,23 @@
 
 \pagestyle{fancy}
 \fancyhead{} % clear all header fields
-\fancyhead[L]{\fontsize{10}{11} \selectfont Social Entrepreneurship, Language and Funding}
+\renewcommand{\headrulewidth}{0pt}
+%\fancyhead[L]{\fontsize{10}{11} \selectfont Social Entrepreneurship, Language and Funding}
 \fancyfoot{}
 % Set the right side of the footer to be the page number
 \fancyfoot[R]{\thepage}
  
 
 \begin{document}
+
+\title{Social Entrepreneurship, Language, and Funding: Evidence from Tech Startups in Sub-Saharan Africa}
+
+\author{Natalie Carlson%
+\thanks{Electronic address: \texttt{ncarlson19@gsb.columbia.edu}; I am grateful to Dan Wang, Bruce Kogut, Stephan Meier and J.P. Eggers for their helpful comments on this manuscript.}}
+\affil{Columbia Business School}
+
+\date{\today}
+
 \maketitle
 
 \begin{abstract}
@@ -59,7 +68,7 @@ Receiving venture funding from external sources is a crucial outcome for early-s
 
 \begin{figure} [!h]
 \centering
-\includegraphics[scale=0.35]{kenya_cloud}
+\includegraphics[scale=0.32]{kenya_cloud}
 \caption{Word Cloud Generated from Kenyan Startups}
 \end{figure}
 
@@ -82,7 +91,7 @@ Ventures that mirror this type of language might then be attractive to these pot
 
 \begin{figure} [!h]
 \centering
-\includegraphics[scale=0.35]{nigeria_cloud}
+\includegraphics[scale=0.32]{nigeria_cloud}
 \caption{Word Cloud Generated from Nigerian Startups}
 \end{figure}
 
@@ -247,11 +256,11 @@ Hypothesis 1 predicted that firms with more user disagreement over whether or no
 \end{figure}
 
 % Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
-% Date and time: Fri, Jun 24, 2016 - 13:36:08
+% Date and time: Wed, Aug 10, 2016 - 15:55:21
 \begin{table}[!htbp] \centering 
   \caption{Logistic Regression of Funding Dummy on Social Orientation Score} 
   \label{} 
-\scriptsize
+  \scriptsize
 \begin{tabular}{@{\extracolsep{5pt}}lccc} 
 \\[-1.8ex]\hline 
 \hline \\[-1.8ex] 
@@ -261,9 +270,9 @@ Hypothesis 1 predicted that firms with more user disagreement over whether or no
  & Model 1 & Model 2 & Model 3 \\ 
 \\[-1.8ex] & (1) & (2) & (3)\\ 
 \hline \\[-1.8ex] 
- Social Orientation Score & 4.37$^{*}$ & 4.82$^{*}$ & 7.46$^{**}$ \\ 
+Social Orientation Score & 4.37$^{*}$ & 4.82$^{*}$ & 7.46$^{**}$ \\ 
   & (2.55) & (2.65) & (3.74) \\ 
-  Social Orientation Score*2 & $-$5.17$^{*}$ & $-$5.27$^{*}$ & $-$7.75$^{*}$ \\ 
+Social Orientation Score*2 & $-$5.17$^{*}$ & $-$5.27$^{*}$ & $-$7.75$^{*}$ \\ 
   & (2.69) & (2.78) & (3.98) \\ 
   Kenya & $-$0.03 & 0.14 & 0.49 \\ 
   & (0.37) & (0.38) & (0.57) \\ 
@@ -282,9 +291,10 @@ Hypothesis 1 predicted that firms with more user disagreement over whether or no
   Constant & $-$2.84$^{***}$ & $-$3.40$^{***}$ & $-$5.66$^{***}$ \\ 
   & (0.64) & (0.69) & (1.05) \\ 
  \hline \\[-1.8ex] 
- All 200+ Industries & No & No & Yes  \\ 
- \hline \\[-1.8ex] 
+  All 200+ Industries & No & No & Yes \\ 
+  \hline \\[-1.8ex] 
 Observations & 844 & 844 & 844 \\ 
+Log Likelihood & $-$302.00 & $-$292.17 & $-$162.72 \\ 
 \hline 
 \hline \\[-1.8ex] 
 \textit{Note:}  & \multicolumn{3}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
@@ -293,7 +303,7 @@ Observations & 844 & 844 & 844 \\
 
 \clearpage
 
-Because this sample consists of primarily early-stage African startups, most of which have no external funding, the funding indicator is the most useful outcome variable for this analysis. However, it is useful to see whether any particular type of funding drives the observed effect. Table 3 displays logistic regression models for various different funding indicators. The quadratic effect discussed above can be observed for firms acquiring their first funding round, but does not appear to predict subsequent funding rounds (although there may not be enough data to demonstrate this effect, as only a minority of firms have more than one funding round). Similarly, there appears to be a borderline significant quadratic effect for acquiring seed funding, but not for venture or private equity funding. Ideally, follow-up research with access to a larger sample of funded firms would plumb these contradictions further. However, it may be that spanning the commercial-social boundary is most crucial for acquiring early stage funding, and this orientation matters less for subsequent funding acquisition. 
+Because this sample consists of primarily early-stage African startups, most of which have no external funding, the funding indicator is the most useful outcome variable for this analysis. However, it is useful to see whether any particular type of funding drives the observed effect. Table 3 displays logistic regression models for various different funding indicators. The quadratic effect discussed above can be observed for firms acquiring their first funding round, but does not appear to predict subsequent funding rounds (although there may not be enough data to demonstrate this effect, as only a minority of firms have more than one funding round). Similarly, there is some evidence for a quadratic effect for acquiring seed funding, but not for venture or private equity funding. Ideally, follow-up research with access to a larger sample of funded firms would plumb these contradictions further. However, it may be that spanning the commercial-social boundary is most crucial for acquiring early stage funding, and this orientation matters less for subsequent funding acquisition. 
 
 
 % Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
@@ -327,12 +337,12 @@ Because this sample consists of primarily early-stage African startups, most of 
  All 200+ Industries & Yes & Yes & Yes & Yes \\ 
   \hline \\[-1.8ex] 
 Observations & 824 & 844 & 844 & 844 \\ 
+Log Likelihood & $-$142.65 & $-$18.05 & $-$148.34 & $-$55.75 \\ 
 \hline 
 \hline \\[-1.8ex] 
 \textit{Note:}  & \multicolumn{4}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
 \end{tabular} 
 \end{table} 
-
 \FloatBarrier
 
 \section{Results: Topics}
@@ -424,6 +434,7 @@ As a check on the validity of determining where the topics fall on the social-co
   Constant & $-$1.37 (1.37) & 3.63 (4.18) \\ 
  \hline \\[-1.8ex] 
 Observations & 844 & 844 \\ 
+Log Likelihood & $-$288.62 & $-$274.15 \\ 
 \hline 
 \hline \\[-1.8ex] 
 \textit{Note:}  & \multicolumn{2}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
@@ -466,6 +477,7 @@ As many of these topics appear to be closer to industry indicators, some subtlet
   & (1.37) & (1.45) \\ 
  \hline \\[-1.8ex] 
 Observations & 844 & 844 \\ 
+Log Likelihood & $-$288.62 & $-$270.89 \\ 
 \hline 
 \hline \\[-1.8ex] 
  \multicolumn{3}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
@@ -520,6 +532,7 @@ Observations & 844 & 844 \\
   & (1.37) & (1.45) \\ 
  \hline \\[-1.8ex] 
 Observations & 844 & 844 \\ 
+Log Likelihood & $-$288.62 & $-$273.33 \\ 
 \hline 
 \hline \\[-1.8ex] 
 \multicolumn{3}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
@@ -528,6 +541,7 @@ Observations & 844 & 844 \\
 \end{tabular} 
 \end{table} 
 
+\FloatBarrier
 
 \section{Discussion and Conclusion}
 
@@ -538,12 +552,7 @@ In future investigations, I hope to probe the limitations of the theory laid out
 \section{References}
 
 \begingroup\small
-
-(2015). Unleashing Africa's Entrepreneurs: Improving the Enabling Environment for Start-ups, The Tony Elumelu Foundation Africapitalism Institute.
 	
-(2016). "eVA Fund." from http://www.eva-fund.com/about.
-	
-(2016). "Novastar Ventures: About Us." from http://www.novastarventures.com/ - about.
 	
 Austin, J., et al. (2006). "Social and Commercial Entrepreneurship: Same, Different, or Both?" Entrepreneurship Theory and Practice 30(1): 1-22.
 	
@@ -560,6 +569,8 @@ Chang, J., et al. (2009). "Reading Tea Leaves: How Humans Interpret Topic Models
 Cho, A. H. (2006). "Politics, values and social entrepreneurship: A critical appraisal." Social entrepreneurship 280.
 	
 Dees, J. (1998). "The Meaning of Social Entrepreneurship."
+
+"eVA Fund." from http://www.eva-fund.com/about. (2016). 
 	
 Griffiths, T. L. and M. Steyvers (2004). "Finding scientific topics." PNAS 101.
 	
@@ -576,12 +587,16 @@ Marchant, E. (2015). "Who is ICT Innovation For? Challenges to Existing Theories
 Martin, R. L. and S. Osberg (2007). "Social Entrepreneurship: The Case for Definition." Stanford Social Innovation review.
 	
 Norton, R. (2015). ``Venture Capital Investors." 2016, from http://www.siliconcape.com/page/venture-capital-investors.
+
+"Novastar Ventures: About Us." from http://www.novastarventures.com/ - about. (2016). 
 	
 Peredo, A. M. and M. McLean (2006). "Social entrepreneurship: A critical review of the concept." Journal of World Business 41(1): 56-65.
 	
 Snow, R., et al. (2008). "Cheap and Fast -- But is it Good? Evaluating Non-Expert Annotations for Natural Language Tasks." Proceedings of the 2008 Conference on Empirical Methods in Natural Language Processing.
 	
 Tibshirani, R. (1996). "Regression Shrinkage and Selection via the Lasso." Journal of the Royal Statistical Society 58(1).
+
+Unleashing Africa's Entrepreneurs: Improving the Enabling Environment for Start-ups, The Tony Elumelu Foundation Africapitalism Institute. (2015). 
 	
 White, B. (2015). Angel Investors Invest \$27 Million In African Startups Listed On VC4Africa. M. Nsehe, Forbes.
 	
@@ -897,43 +912,6 @@ Zott, C. and Q. N. Huy (2007). "How Entrepreneurs Use Symbolic Management to Acq
 \end{figure}
 
 
-% Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
-% Date and time: Thu, Jun 23, 2016 - 16:11:41
-\begin{table}[!htbp] \centering 
-  \caption{Regressions of Total Funding on Social Orientation Score} 
-  \label{} 
-\scriptsize 
-\begin{tabular}{@{\extracolsep{5pt}}lcccccc} 
-\\[-1.8ex]\hline 
-\hline \\[-1.8ex] 
- & \multicolumn{6}{c}{Funding Amount: Less than...} \\ 
-\cline{2-7} 
-\\[-1.8ex] & \multicolumn{6}{c}{} \\ 
- & \textdollar 10m &  \textdollar 1m &  \textdollar 400k &  \textdollar 200k &  \textdollar 50k &  \textdollar 25k \\ 
-\\[-1.8ex] & (1) & (2) & (3) & (4) & (5) & (6)\\ 
-\hline \\[-1.8ex] 
- Social Orientation Score & 188,883 & 21,205 & 43,249$^{**}$ & 24,880$^{*}$ & 2,031 & 2,048 \\ 
-  & (340,299) & (44,280) & (20,577) & (13,101) & (3,169) & (1,908) \\ 
-  Social Orientation Score*2 & $-$150,817 & $-$16,363 & $-$39,834$^{*}$ & $-$26,372$^{*}$ & $-$1,459 & $-$1,676 \\ 
-  & (354,938) & (46,167) & (21,436) & (13,642) & (3,298) & (1,984) \\ 
-  Kenya & 61,072 & $-$5,430 & $-$4,817 & $-$1,573 & $-$72 & 310 \\ 
-  & (53,155) & (6,979) & (3,259) & (2,074) & (507) & (306) \\ 
-  Nigeria & 50,273 & $-$11,617$^{*}$ & $-$2,791 & $-$706 & 34 & 268 \\ 
-  & (52,802) & (6,920) & (3,228) & (2,056) & (501) & (304) \\ 
-  Uganda & 32,511 & $-$12,483 & $-$6,135 & $-$282 & 174 & 957$^{**}$ \\ 
-  & (69,215) & (9,075) & (4,236) & (2,697) & (658) & (397) \\ 
-  Constant & $-$46,310 & 4,573 & $-$6,770 & $-$3,648 & $-$434 & $-$883$^{*}$ \\ 
-  & (88,906) & (11,558) & (5,393) & (3,429) & (831) & (501) \\ 
-   \hline \\[-1.8ex] 
- All 200+ Industries & Yes & Yes & Yes & Yes & Yes & Yes\\ 
- \hline \\[-1.8ex] 
-Observations & 835 & 816 & 808 & 800 & 782 & 770 \\ 
-R$^{2}$ & 0 & 0 & 0 & 0 & 1 & 0 \\ 
-\hline 
-\hline \\[-1.8ex] 
-\textit{Note:}  & \multicolumn{6}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
-\end{tabular} 
-\end{table} 
 
 
 

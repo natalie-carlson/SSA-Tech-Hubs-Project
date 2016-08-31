@@ -33,13 +33,15 @@ descriptions$funding_dummy <- ifelse(descriptions$total_funding>0,1,0)
 
 ggplot(descriptions, aes(x=average_scores, fill=factor(funding_dummy))) + geom_histogram(binwidth = 0.05) + scale_x_continuous(breaks = scales::pretty_breaks(n = 11), limits = c(-0.05, 1.05))
 
+#drop those with no responses
+descriptions <- filter(descriptions, num_responses!=0)
+
+
 library(gtools)
 bin_descriptions <- data.frame(descriptions, bin=cut(descriptions$average_score, c(0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1), include.lowest=TRUE))
 ggplot(bin_descriptions, aes(x=bin, y=funding_dummy)) + stat_summary(fun.y="mean", geom="bar") + xlab("Less Social <--- Average mTurk Score ---> More Social") + ylab("Proportion of Firms Funded")
 
 
-#drop those with no responses
-descriptions <- filter(descriptions, num_responses!=0)
 
 funded_only <- filter(descriptions, funding_dummy==1)
 ggplot(descriptions, aes(average_score, total_funding)) + geom_point()
@@ -136,6 +138,8 @@ categories$descriptions <- NULL
 descriptions_categories <- merge(descriptions, categories, by.x = c("names"), by.y=c("names"), all.x = TRUE, all.y = FALSE)
 descriptions_categories$dup1 <- duplicated(descriptions_categories$descriptions, fromLast = TRUE)
 descriptions_categories <- filter(descriptions_categories, dup1==FALSE)
+
+write.csv(descriptions_categories, "category_matrix_order.csv")
 
 ## Regularized regression with just the text
 library(quanteda)

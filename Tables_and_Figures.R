@@ -145,7 +145,7 @@ df <- data.frame(
   Feature=rownames(coef(glm1))[ind],
   Coefficient=coef(glm1)[ind]
 )
-df <- df[order(df$coefficient),]
+df <- df[order(df$Coefficient),]
 library(xtable)
 
 xtable(df, format="latex", include.rownames = FALSE)
@@ -162,7 +162,7 @@ dummy_df<- descriptions_categories[ , !(names(descriptions_categories) %in% drop
 binomial1 <- glm(funding_dummy ~ average_score + I(average_score^2) + country, dummy_df, family="binomial")
 binomial2 <- glm(funding_dummy ~ average_score  + I(average_score^2) + country + Software + Mobile + E.Commerce + Education, dummy_df, family="binomial")
 binomial3 <- glm(funding_dummy ~ average_score + I(average_score^2) + country + Software + Mobile + E.Commerce + Education + ., dummy_df, family="binomial")
-stargazer(binomial1, binomial2, binomial3, title="Logistic Regression of Funding Dummy on mTurk Score", dep.var.labels="", dep.var.caption = "Funding indicator", covariate.labels = c("mTurk Score", "mTurk Score*2", "Kenya", "Nigeria", "Uganda", "Software", "Mobile", "E-Commerce", "Education"), column.labels=c("Model 1", "Model 2", "Model 3"), omit =c(11:224), no.space = T, digits = 2, omit.stat=c("aic", "ll"), size="footnotesize")
+stargazer(binomial1, binomial2, binomial3, title="Logistic Regression of Funding Dummy on mTurk Score", dep.var.labels="", dep.var.caption = "Funding indicator", covariate.labels = c("mTurk Score", "mTurk Score*2", "Kenya", "Nigeria", "Uganda", "Software", "Mobile", "E-Commerce", "Education"), column.labels=c("Model 1", "Model 2", "Model 3"), omit =c(11:224), no.space = T, digits = 2, omit.stat=c("aic"), size="footnotesize")
 
 
 ## TABLE X: LIKELIHOOD OF PARTICULAR TYPES OF FUNDING
@@ -201,7 +201,7 @@ funded_only <- descriptions_categories[ , !(names(descriptions_categories) %in% 
 binomial2 <- glm(two_or_more ~ average_score + I(average_score^2) + country + ., data = funded_only, family = "binomial")
 
 
-stargazer(binomial1, binomial2, binomial3, binomial4, title="Specific Types of Funding Outcomes", dep.var.labels=c("", "", "", ""), dep.var.caption = "Funding Indicators", covariate.labels = c("mTurk Score", "mTurk Score*2", "Kenya", "Nigeria", "Uganda"), column.labels=c("First Funding Round", "Subsequent Funding Rounds", "Seed Funding", "Venture/PE Funding"), omit =c(7:224), no.space = T, digits = 2, omit.stat=c("aic", "ll"), font.size = "footnotesize")
+stargazer(binomial1, binomial2, binomial3, binomial4, title="Specific Types of Funding Outcomes", dep.var.labels=c("", "", "", ""), dep.var.caption = "Funding Indicators", covariate.labels = c("mTurk Score", "mTurk Score*2", "Kenya", "Nigeria", "Uganda"), column.labels=c("First Funding Round", "Subsequent Funding Rounds", "Seed Funding", "Venture/PE Funding"), omit =c(7:224), no.space = T, digits = 2, omit.stat=c("aic"), font.size = "footnotesize")
 
 ## TOPICS
 library("lda")
@@ -217,7 +217,7 @@ set.seed(110)
 #set.seed(104)
 #set.seed(103)
 model <- lda.collapsed.gibbs.sampler(corpus$documents, 22, corpus$vocab, 1000, alpha = alpha, eta = eta, compute.log.likelihood=T, trace=0L)
-topics <- top.topic.words(model$topics, n=5)
+topics <- top.topic.words(model$topics, n=7)
 topics
 
 counts <- t(model$document_sums)
@@ -280,7 +280,7 @@ stargazer(binomial1, binomial2, title="Logistic Regression of Funding Dummy on T
     "Score x T5: mobile platforms", "Score x T6: energy", "Score x T7: data", "Score x T8: media", "Score x T9: content", "Score x T10: business solutions", "Score x T11: entrepreneurship",
     "Score x T12: education", "Score x T13: farming", "Score x T14: development/non-profit", "Score x T15: events", "Score x T16: time", "Score x T17: service", "Score x T18: delivery", 
     "Score x T19: real estate", "Score x T20: SMS", "Score x T21: e-commerce", "Score x T22: safaris", "Kenya", "Nigeria", "Uganda"), 
-    column.labels=c("Model 1", "Model 2"), no.space = T, digits = 2, omit.stat=c("aic", "ll"), font.size = "footnotesize", single.row = TRUE)
+    column.labels=c("Model 1", "Model 2"), no.space = T, digits = 2, omit.stat=c("aic"), font.size = "footnotesize", single.row = TRUE)
 
 
 ## TABLE X: REGRESSION OF FUNDING ON T3 and T3 INTERACTIONS
@@ -321,7 +321,7 @@ stargazer(binomial1, binomial2, title="Interactions with Banking Topic", dep.var
 "T3 x T5: mobile platforms", "T3 x T6: energy", "T3 x T7: data", "T3 x T8: media", "T3 x T9: content", "T3 x T10: business solutions", "T3 x T11: entrepreneurship",
 "T3 x T12: education", "T3 x T13: farming", "T3 x T14: development/non-profit", "T3 x T15: events", "T3 x T16: time", "T3 x T17: service", "T3 x T18: delivery",
 "T3 x T19: real estate", "T3 x T20: SMS", "T3 x T21: e-commerce", "T3 x T22: safaris", "Kenya", "Nigeria", "Uganda"),
-        dep.var.caption = "Funding Indicator", no.space = T, digits = 2, omit.stat=c("aic", "ll"), font.size = "footnotesize",
+        dep.var.caption = "Funding Indicator", no.space = T, digits = 2, omit.stat=c("aic"), font.size = "footnotesize",
         notes=c("All individual topics and interactions with T3 are included.",
                 "Only significant interactions are displayed."))
                  
@@ -367,7 +367,7 @@ stargazer(binomial1, binomial2, title="Interactions with Development/Non-Profit 
                                "T14 x T5: mobile platforms", "T14 x T6: energy", "T14 x T7: data", "T14 x T8: media", "T14 x T9: content", "T14 x T10: business solutions", "T14 x T11: entrepreneurship",
                                "T14 x T12: education", "T14 x T13: farming", "T14 x T15: events", "T14 x T16: time", "T14 x T17: service", "T14 x T18: delivery",
                                "T14 x T19: real estate", "T14 x T20: SMS", "T14 x T21: e-commerce", "T14 x T22: safaris", "Kenya", "Nigeria", "Uganda"),
-          dep.var.caption = "Funding Indicator", no.space = T, digits = 2, omit.stat=c("aic", "ll"), font.size = "footnotesize",
+          dep.var.caption = "Funding Indicator", no.space = T, digits = 2, omit.stat=c("aic"), font.size = "footnotesize",
           notes=c("All individual topics and interactions with T14 are included.",
                   "Only significant interactions are displayed."))
 
@@ -564,3 +564,83 @@ plot(number_of_topics, harmonic_mean, type = "l")
 
 # compute optimum number of topics
 number_of_topics[which.max(harmonic_mean)]
+
+
+## GENERATE LDAVIS
+library(LDAvis)
+library(servr)
+
+theta <- t(apply(model$document_sums + alpha, 2, function(x) x/sum(x)))
+phi <- t(apply(t(model$topics) + eta, 2, function(x) x/sum(x)))
+doc.length <- sapply(corpus$documents, function(x) sum(x[2, ]))
+vocab <- corpus$vocab
+term.table <- word.counts(corpus$documents, vocab=NULL)
+term.table <- sort(term.table, decreasing = TRUE)
+term.frequency <- as.integer(term.table) 
+
+StartupTopics <- list(phi = phi,
+                      theta = theta,
+                      doc.length = doc.length,
+                      vocab = vocab,
+                      term.frequency = term.frequency)
+
+json <- createJSON(phi = StartupTopics$phi, 
+                   theta = StartupTopics$theta, 
+                   doc.length = StartupTopics$doc.length, 
+                   vocab = StartupTopics$vocab, 
+                   term.frequency = StartupTopics$term.frequency)
+
+serVis(json, out.dir = 'vis2', open.browser = FALSE)
+
+######################
+# OUTSHEET FOR BROWSER
+######################
+
+#metadata
+metadata <- descriptions
+metadata$dup1 <- NULL
+metadata$dup2 <- NULL
+metadata$match <- NULL
+metadata$score_sd <- NULL
+metadata$clean_text <- NULL
+metadata$num_responses <- NULL
+
+setwd("/Users/nataliecarlson/Desktop/Summer16/SSA_Model_Browser/data_from_R")
+
+con<-file('metadata.csv',encoding="UTF-8")
+write.csv(metadata,file=con)
+
+#tw.json
+tw_object <- list()
+words_df <- as.data.frame(t(model$topics))
+for (i in 1:ncol(words_df)) {
+  sorted_words <- words_df[order(-words_df[,i]),]
+  tw_object <- append(tw_object, list(words=rownames(sorted_words[1:30,])))
+  tw_object <- append(tw_object, list(weights=sorted_words[1:30, i]))
+}
+
+tw_object
+
+#dt.json.zip
+i <- list()
+p <- list(0)
+x <- list()
+document_sums <- as.data.frame(t(model$document_sums))
+for (j in 1:ncol(document_sums)) {
+  docs <- which(document_sums[,j] != 0)
+  docs_zeroindex <- docs - 1
+  length <- length(docs)
+  weights <- document_sums[docs, j]
+  i <- append(i, docs_zeroindex)
+  length <- p[[length(p)]] + length 
+  p <- append(p, length)
+  x <- append(x, weights)
+}
+i <- unlist(i)
+p <- unlist(p)
+x <- unlist(x)
+
+write(i, "dt_i.csv", sep="\n")
+write(p, "dt_p.csv", sep="\n")
+write(x, "dt_x.csv", sep="\n")
+
